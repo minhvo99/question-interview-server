@@ -1,15 +1,13 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// Xuất app thay vì listen khi deploy lên Vercel
-module.exports = app;
+export default app;
 
-// Chỉ listen khi chạy local
-if (require.main === module) {
+if (process.argv[1] === new URL(import.meta.url).pathname) {
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
     console.log(`App listening on port http://localhost:${port}/`);
