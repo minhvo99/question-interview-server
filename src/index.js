@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const port = process.env.PORT || 8080;
 
 config();
 await db.connect();
@@ -46,8 +47,7 @@ app.use('/api/v1', appRouter);
 
 // Global error
 app.use(errorHandler);
-const server = http.createServer(app);
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`App listening on port http://localhost:${port}/`);
 });
 
