@@ -8,13 +8,10 @@ import { rateLimit } from 'express-rate-limit';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const port = process.env.PORT || 8080;
-
-config();
-await db.connect();
 
 const app = express();
 
@@ -24,30 +21,43 @@ if (process.env.NODE_ENV === 'development') {
 
 const limiter = rateLimit({
   max: 100,
-  windowMs: 60 * 60 * 1000, //1hour
+  windowMs: 60 * 60 * 1000, // 1h
   standardHeaders: 'draft-7',
   legacyHeaders: false,
-  message: 'Too many request from this IP, please try again in an hour!',
+  message: 'Too many requests from this IP, please try again in an hour!',
 });
 
+// CORS
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'https://question-interview.vercel.app/'],
+    origin: ['http://localhost:4200', 'https://question-interview.vercel.app'],
     credentials: true,
   }),
 );
+
+app.use(async (req, res, next) => {
+  try {
+    await db.connect();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.use('/api', limiter);
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(`${__dirname}/assets`));
+
+// Routes
 app.use('/api/v1', appRouter);
-// Global error
+
 app.use(errorHandler);
 
 export default app;
 
 // if (process.argv[1] === new URL(import.meta.url).pathname) {
+//   const port = process.env.PORT || 8080;
 //   app.listen(port, () => {
 //     console.log(`App listening on port http://localhost:${port}/`);
 //   });
