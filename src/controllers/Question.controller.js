@@ -17,9 +17,11 @@ export const getQuestions = async (req, res, next) => {
       return next(new AppError('Can not find question', 404));
     }
     return res.json({
-      data,
-      total,
       message: 'Successfully',
+      data,
+      page,
+      limit,
+      total,
     });
   } catch (error) {
     next(error);
@@ -38,13 +40,10 @@ export const getQuestionById = async (req, res, next) => {
     const Question = getQuestionModel(collectionName);
     const data = await Question.findById(id);
     return res.json({
-      data,
-      length: data.length,
       message: 'Successfully',
+      data,
     });
   } catch (error) {
     next(error);
   }
 };
-
-export const checkCollection = (req, res, next) => {};
