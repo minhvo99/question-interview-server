@@ -1,5 +1,3 @@
-import logger from '../logger/winston.js';
-
 const sendErrorDev = (err, req, res) => {
   return res.status(err.statusCode).json({
     status: err.status,
@@ -16,7 +14,6 @@ const sendErrorProd = (err, req, res) => {
       message: err.message,
     });
   } else {
-    logger.error(err);
     return res.status(500).json({
       status: 'Error',
       message: 'Something went wrong!',

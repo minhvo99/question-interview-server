@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
-import logger from '../logger/winston.js';
 
 config();
 
@@ -21,9 +20,9 @@ const connect = async () => {
       socketTimeoutMS: 45000,
     });
     isConnected = true;
-    logger.info('✅ Database connection successful');
+    console.log('✅ Database connection successful');
   } catch (err) {
-    logger.error(`❌ Database connection error: ${err}`);
+    console.log(`❌ Database connection error: ${err}`);
     throw err;
   }
 };
@@ -32,9 +31,9 @@ const disconnect = async () => {
   try {
     await mongoose.disconnect();
     isConnected = false;
-    logger.info('Database disconnected successfully');
+    console.log('Database disconnected successfully');
   } catch (err) {
-    logger.error(`Database disconnection error: ${err}`);
+    console.log(`Database disconnection error: ${err}`);
   }
 };
 

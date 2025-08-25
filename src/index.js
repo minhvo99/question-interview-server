@@ -35,11 +35,16 @@ app.use(
   }),
 );
 
+console.log('🚀 App is starting...');
+
 app.use(async (req, res, next) => {
+  console.log('📡 Incoming request:', req.method, req.url);
   try {
     await db.connect();
+    console.log('✅ DB connected (or already connected)');
     next();
   } catch (err) {
+    console.error('❌ DB connect error', err);
     next(err);
   }
 });
@@ -47,7 +52,7 @@ app.use(async (req, res, next) => {
 app.use('/api', limiter);
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(`${__dirname}/assets`));
+// app.use(express.static(`${__dirname}/assets`));
 
 // Routes
 app.use('/api/v1', appRouter);
