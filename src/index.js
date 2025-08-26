@@ -30,7 +30,11 @@ const limiter = rateLimit({
 // CORS
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'https://question-interview.vercel.app'],
+    origin: [
+      'http://localhost:4200',
+      'https://question-interview.vercel.app',
+      'http://localhost:5173/',
+    ],
     credentials: true,
   }),
 );
