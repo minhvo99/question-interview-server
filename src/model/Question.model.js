@@ -14,8 +14,8 @@ const questionSchema = new Schema(
     Level: {
       type: String,
       enum: {
-        values: ['BAS', 'JUN', 'MID', 'SEN'],
-        message: 'Level  is either: basic, junior, middle or senior',
+        values: ['BAS', 'JUN', 'MID', 'SEN', 'MAS'],
+        message: 'Level  is either: basic, junior, middle, senior or master',
       },
       required: [true, 'level is required!'],
     },
